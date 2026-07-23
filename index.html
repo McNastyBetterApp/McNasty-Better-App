@@ -3,20 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>McNasty's Better App</title>
+    <title>McNasty's Wicked Rip Tracker</title>
+    <!-- Importing high-impact sports typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Cabinet+Grotesk:wght@800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
+            /* Dark Theme Colors (Shots) */
             --bg-color: #0b0c10;
             --card-bg: #1f2128;
             --text-color: #ffffff;
             --text-muted: #9ca3af;
-            --brand-red: #e11d48;
-            --brand-green: #22c55e;
-            --brand-yellow: #eab308;
+            
+            /* Light Theme Colors (Stick Handling) */
+            --light-bg: #f3f4f6;
+            --light-card-bg: #ffffff;
+            --light-text: #111827;
+            --light-text-muted: #4b5563;
+            --light-border: #e5e7eb;
+
+            /* Team Accent Colors */
+            --brand-red: #e11d48;     /* High-vis Sports Red */
+            --brand-green: #22c55e;   /* Goal Green */
+            --brand-yellow: #eab308;  /* Warning Yellow */
             --border-gray: #374151;
         }
 
@@ -34,6 +45,13 @@
             padding: 15px;
             display: flex;
             justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light Theme Override */
+        body.mode-stickhandling {
+            background-color: var(--light-bg);
+            color: var(--light-text);
         }
 
         .app-container {
@@ -44,89 +62,111 @@
             padding: 24px;
             border: 2px solid var(--border-gray);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
         }
 
-        .mode-toggle {
+        body.mode-stickhandling .app-container {
+            background: var(--light-card-bg);
+            border-color: var(--brand-green);
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+        }
+
+        /* --- MODE SWITCHER TABS --- */
+        .mode-switch-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 24px;
-            background: var(--bg-color);
+            gap: 8px;
+            background: rgba(0,0,0,0.2);
             padding: 6px;
-            border-radius: 14px;
+            border-radius: 16px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-gray);
         }
 
-        .mode-btn {
+        body.mode-stickhandling .mode-switch-container {
+            background: var(--light-bg);
+            border-color: var(--light-border);
+        }
+
+        .mode-tab {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 12px 5px;
             font-family: 'Teko', sans-serif;
             font-size: 1.4rem;
-            font-weight: 700;
+            padding: 8px 0;
+            border-radius: 12px;
+            cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
-        .mode-btn.active {
-            background: var(--text-color);
-            color: #000000;
+        body.mode-stickhandling .mode-tab {
+            color: var(--light-text-muted);
         }
 
-        body.workout-mode-active .mode-btn.active {
-            background: var(--brand-yellow);
-            color: #000000;
+        .mode-tab.active {
+            background: var(--brand-red);
+            color: white;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.4);
+        }
+
+        body.mode-stickhandling .mode-tab.active {
+            background: var(--brand-green);
+            color: white;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
         }
 
         header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .logo-placeholder {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             background: linear-gradient(135deg, var(--brand-red), #9f1239);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
             border: 3px solid var(--text-color);
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
-        body.workout-mode-active .logo-placeholder {
-            background: linear-gradient(135deg, var(--brand-yellow), #a16207);
-            box-shadow: 0 0 15px rgba(234, 179, 8, 0.4);
+        body.mode-stickhandling .logo-placeholder {
+            background: linear-gradient(135deg, var(--brand-green), #15803d);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+            border-color: var(--brand-yellow);
         }
 
         h1 {
             font-family: 'Teko', sans-serif;
-            font-size: 2.6rem;
+            font-size: 2.5rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-color);
             line-height: 0.9;
             text-shadow: 2px 2px 0px var(--brand-red);
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        body.workout-mode-active h1 {
+        body.mode-stickhandling h1 {
+            color: var(--light-text);
             text-shadow: 2px 2px 0px var(--brand-yellow);
         }
 
         .setup-section {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -136,29 +176,46 @@
             color: var(--brand-yellow);
             margin-bottom: 4px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        body.mode-stickhandling label {
+            color: #d97706; /* Warmer dark yellow for high legibility on light bg */
         }
 
         select {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: var(--bg-color);
-            border: 2px solid var(--border-gray);
+            border: 2px solid var(--brand-yellow);
             border-radius: 12px;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             outline: none;
-            -webkit-appearance: none; /* Helps style uniformly on iOS */
-            appearance: none;
+            cursor: pointer;
+        }
+
+        body.mode-stickhandling select {
+            background: #ffffff;
+            color: var(--light-text);
+            border-color: var(--brand-green);
         }
 
         .stats-card {
             background: var(--bg-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 2px solid var(--border-gray);
+            transition: all 0.3s ease;
+        }
+
+        body.mode-stickhandling .stats-card {
+            background: #ffffff;
+            border-color: var(--brand-green);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .total-counter {
@@ -174,7 +231,12 @@
             font-family: 'Teko', sans-serif;
             font-size: 1.3rem;
             color: var(--text-muted);
-            margin-bottom: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        body.mode-stickhandling .goal-text {
+            color: var(--light-text-muted);
         }
 
         .progress-container {
@@ -187,11 +249,16 @@
             border: 2px solid var(--border-gray);
         }
 
+        body.mode-stickhandling .progress-container {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+        }
+
         .progress-bar {
             background: linear-gradient(90deg, var(--brand-yellow), var(--brand-green));
             height: 100%;
             width: 0%;
-            transition: width 0.5s ease;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .progress-text {
@@ -202,276 +269,291 @@
             left: 0;
             font-family: 'Teko', sans-serif;
             font-size: 1.3rem;
+            font-weight: bold;
             color: white;
-            line-height: 24px;
+            line-height: 24px; 
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        body.mode-stickhandling .progress-text {
+            color: #111827;
+            text-shadow: none;
         }
 
         .button-group-title {
             font-family: 'Teko', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: var(--text-color);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 1px;
             border-left: 4px solid var(--brand-red);
             padding-left: 8px;
         }
 
-        body.workout-mode-active .button-group-title {
-            border-left-color: var(--brand-yellow);
+        body.mode-stickhandling .button-group-title {
+            color: var(--light-text);
+            border-left-color: var(--brand-green);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .type-btn {
             background: #2a2d37;
             border: 2px solid transparent;
             color: var(--text-color);
-            padding: 14px 5px;
+            padding: 12px 5px;
             border-radius: 12px;
             font-weight: bold;
             font-size: 0.95rem;
             cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        body.mode-stickhandling .type-btn {
+            background: #ffffff;
+            color: var(--light-text);
+            border-color: #d1d5db;
         }
 
         .type-btn.active {
             background: var(--brand-red);
             border-color: var(--text-color);
             color: white;
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.4);
         }
 
-        body.workout-mode-active .type-btn.active {
-            background: var(--brand-yellow);
-            color: #000000;
+        body.mode-stickhandling .type-btn.active {
+            background: var(--brand-green);
+            border-color: var(--brand-yellow);
+            color: white;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        .exercise-sub {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.85;
+            margin-top: 2px;
         }
 
         .increment-btn {
             background: linear-gradient(135deg, #ffffff, #e5e7eb);
             color: #000000;
             border: 2px solid var(--border-gray);
-            padding: 20px;
+            padding: 16px;
             border-radius: 16px;
             font-family: 'Teko', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
             line-height: 1;
+            transition: transform 0.1s;
+        }
+
+        body.mode-stickhandling .increment-btn {
+            background: linear-gradient(135deg, #fef08a, var(--brand-yellow));
+            border-color: #d97706;
+            box-shadow: 0 4px 10px rgba(234, 179, 8, 0.25);
         }
 
         .increment-btn:active {
             transform: scale(0.95);
+            background: var(--brand-yellow);
         }
 
-        .workout-checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        /* --- TIMER PANEL FOR STICK HANDLING --- */
+        .timer-box {
+            background: #ffffff;
+            border: 2px solid var(--brand-green);
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .exercise-item {
-            background: #2a2d37;
-            border: 2px solid var(--border-gray);
-            border-radius: 14px;
-            padding: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
+        .timer-display {
+            font-family: 'Teko', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--brand-green);
+            line-height: 0.9;
         }
 
-        .exercise-info {
-            display: flex;
-            flex-direction: column;
-            width: 85%;
-        }
-
-        .exercise-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .exercise-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            display: none;
-            padding-right: 10px;
-        }
-
-        .exercise-desc.visible {
-            display: block;
-        }
-
-        .complete-checkbox {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: transparent;
-        }
-
-        .exercise-item.done {
-            border-color: var(--brand-green);
-            background: rgba(34, 197, 94, 0.1);
-        }
-
-        .exercise-item.done .complete-checkbox {
+        .timer-ctrl-btn {
             background: var(--brand-green);
-            border-color: var(--brand-green);
             color: white;
-        }
-
-        .workout-guide-box {
-            background: var(--bg-color);
-            border: 1px solid var(--brand-yellow);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-
-        .workout-guide-box strong {
-            color: var(--brand-yellow);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
         }
 
         .breakdown-section {
-            margin-top: 24px;
+            margin-top: 20px;
             background: var(--bg-color);
             border-radius: 16px;
             padding: 16px;
             border: 2px solid var(--border-gray);
+            transition: all 0.3s ease;
+        }
+
+        body.mode-stickhandling .breakdown-section {
+            background: #ffffff;
+            border-color: #e5e7eb;
         }
 
         .breakdown-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border-gray);
+            font-size: 0.95rem;
+        }
+
+        body.mode-stickhandling .breakdown-row {
+            border-bottom-color: #f3f4f6;
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            font-weight: bold;
         }
 
         .breakdown-val {
             font-family: 'Teko', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--brand-yellow);
             line-height: 1;
         }
 
+        body.mode-stickhandling .breakdown-val {
+            color: #d97706;
+        }
+
         .history-log {
-            margin-top: 15px;
+            margin-top: 12px;
             font-size: 0.85rem;
             color: var(--text-muted);
             max-height: 100px;
             overflow-y: auto;
             border-top: 2px dashed var(--border-gray);
-            padding-top: 12px;
+            padding-top: 10px;
         }
 
-        .inspiration-quote {
-            text-align: center;
-            font-style: italic;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 24px;
-            padding: 0 10px;
-            line-height: 1.4;
-            border-top: 1px solid var(--border-gray);
-            padding-top: 15px;
+        body.mode-stickhandling .history-log {
+            color: var(--light-text-muted);
+            border-top-color: #e5e7eb;
+        }
+        
+        .log-entry {
+            margin-bottom: 4px;
         }
 
-        .reset-container {
-            margin-top: 24px;
-            border-top: 1px solid var(--border-gray);
-            padding-top: 15px;
+        .control-panel {
+            margin-top: 20px;
             text-align: center;
         }
 
-        .reset-trigger-btn {
+        .reset-btn {
             background: transparent;
             color: var(--brand-red);
             border: 1px solid var(--brand-red);
             padding: 8px 16px;
             border-radius: 8px;
             font-size: 0.85rem;
-            cursor: pointer;
+            font-weight: bold;
             text-transform: uppercase;
-            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .reset-confirmation-box {
-            display: none;
-            background: #2d161b;
-            border: 1px solid var(--brand-red);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 10px;
+        body.mode-stickhandling .reset-btn {
+            color: #dc2626;
+            border-color: #fca5a5;
         }
 
-        .reset-confirmation-box input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-gray);
-            color: white;
-            text-align: center;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .reset-confirm-btn {
+        .reset-btn.danger-zone {
             background: var(--brand-red);
             color: white;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-weight: bold;
-            cursor: pointer;
+        }
+
+        .quote-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            padding: 0 10px;
+            border-top: 1px solid var(--border-gray);
+            padding-top: 14px;
+        }
+
+        body.mode-stickhandling .quote-footer {
+            color: var(--light-text-muted);
+            border-top-color: #e5e7eb;
         }
     </style>
 </head>
-<body class="shot-mode-active">
+<body id="bodyTag">
 
 <div class="app-container">
     
-    <div class="mode-toggle">
-        <button class="mode-btn active" id="modeShot" onclick="switchMode('shot')">Shot Tracker</button>
-        <button class="mode-btn" id="modeWorkout" onclick="switchMode('workout')">Workout Routine</button>
+    <!-- TOP MODE SWITCHER TOGGLE -->
+    <div class="mode-switch-container">
+        <button class="mode-tab active" id="tabShots" onclick="switchMode('shots')">🏒 Shot Tracker</button>
+        <button class="mode-tab" id="tabStick" onclick="switchMode('stickhandling')">⚡ Stick Handling</button>
     </div>
 
     <header>
-        <div class="logo-placeholder" id="appLogo">🏒</div>
-        <h1 id="appTitle">McNasty's Wicked Rip Tracker</h1>
+        <div class="logo-placeholder">
+            <span id="appEmoji">🏒</span>
+        </div>
+        <h1>McNasty's Wicked Rip Tracker</h1>
     </header>
 
     <div class="setup-section">
-        <label for="playerSelect">Active Athlete</label>
-        <select id="playerSelect" onchange="loadActiveData()">
+        <label for="playerSelect">Select Athlete</label>
+        <select id="playerSelect" onchange="loadPlayerData()">
             <option value="Player 1">Player 1</option>
             <option value="Player 2">Player 2</option>
             <option value="Kyle">Kyle</option>
+            <option value="Momzy">Momzy</option>
             <option value="Estelle">Estelle</option>
             <option value="Henley">Henley</option>
             <option value="Leighton">Leighton</option>
             <option value="Landon">Landon</option>
-            <option value="Momzy">Momzy</option>
         </select>
     </div>
 
     <div class="stats-card">
-        <div class="total-counter" id="totalDisplay">0</div>
+        <div class="total-counter" id="totalCounter">0</div>
         <div class="goal-text" id="goalText">TOTAL SHOTS / 10,000 GOAL</div>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
@@ -479,8 +561,8 @@
         </div>
     </div>
 
-    <!-- VIEW 1: SHOT TRACKER -->
-    <div id="viewShotSystem">
+    <!-- ================= VIEW 1: SHOT TRACKER ================= -->
+    <div id="shotTrackerView">
         <div class="button-group-title">1. Target Shot Type</div>
         <div class="grid-3">
             <button class="type-btn active" onclick="setShotType('Wrist')" id="btn-Wrist">Wrist</button>
@@ -489,7 +571,7 @@
         </div>
         <div class="grid-3" style="margin-top: -10px;">
             <button class="type-btn" onclick="setShotType('Slap')" id="btn-Slap">Slap</button>
-            <button class="type-btn" onclick="setShotType('One-Timer')" id="btn-One-Timer">One-Timer</button>
+            <button class="type-btn" onclick="setShotType('One-Timer')" id="btn-OneTimer">One-Timer</button>
             <button class="type-btn" onclick="setShotType('Obstacle')" id="btn-Obstacle">Obstacle</button>
         </div>
 
@@ -502,304 +584,306 @@
 
         <div class="breakdown-section">
             <div class="button-group-title" style="margin-bottom: 5px;">Shot Arsenal</div>
-            <div class="breakdown-row"><span>Wrist Shots:</span><span class="breakdown-val" id="count-Wrist">0</span></div>
-            <div class="breakdown-row"><span>Snap Shots:</span><span class="breakdown-val" id="count-Snap">0</span></div>
-            <div class="breakdown-row"><span>Backhands:</span><span class="breakdown-val" id="count-Backhand">0</span></div>
-            <div class="breakdown-row"><span>Slap Shots:</span><span class="breakdown-val" id="count-Slap">0</span></div>
-            <div class="breakdown-row"><span>One-Timers:</span><span class="breakdown-val" id="count-One-Timer">0</span></div>
-            <div class="breakdown-row"><span>Obstacle:</span><span class="breakdown-val" id="count-Obstacle">0</span></div>
-            <div class="history-log" id="shotHistoryLog">Session logs will display here...</div>
+            <div class="breakdown-row"><span class="breakdown-label">Wrist Shots:</span><span class="breakdown-val" id="count-Wrist">0</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Snap Shots:</span><span class="breakdown-val" id="count-Snap">0</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Backhands:</span><span class="breakdown-val" id="count-Backhand">0</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Slap Shots:</span><span class="breakdown-val" id="count-Slap">0</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">One-Timers:</span><span class="breakdown-val" id="count-OneTimer">0</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Obstacle:</span><span class="breakdown-val" id="count-Obstacle">0</span></div>
+            
+            <div class="history-log" id="shotHistoryLog">Session history will appear here...</div>
         </div>
     </div>
 
-    <!-- VIEW 2: WORKOUT MODULE -->
-    <div id="viewWorkoutSystem" style="display: none;">
-        <div class="workout-guide-box">
-            <strong>Structure:</strong> 5-min Warm-up. Cycle list <strong>2-3 times</strong> doing <strong>8–10 reps</strong> of each. 1-min rest between sets.
-        </div>
-        
-        <div class="button-group-title">Today's Protocol (Tap for info)</div>
-        
-        <div class="workout-checklist">
-            <div class="exercise-item" onclick="toggleExercise('skaters')">
-                <div class="exercise-info">
-                    <span class="exercise-name">Lateral Skaters</span>
-                    <span class="exercise-desc" id="desc-skaters">Partial squat, jump sideways landing softly, sweeping alternate leg back. Builds pure stride explosion.</span>
-                </div>
-                <div class="complete-checkbox" id="check-skaters">✓</div>
-            </div>
-            
-            <div class="exercise-item" onclick="toggleExercise('squats')">
-                <div class="exercise-info">
-                    <span class="exercise-name">Bodyweight Squats</span>
-                    <span class="exercise-desc" id="desc-squats">Chest tall, feet shoulder width. Sit deep back like a chair. Hardens thighs and glutes.</span>
-                </div>
-                <div class="complete-checkbox" id="check-squats">✓</div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleExercise('pushups')">
-                <div class="exercise-info">
-                    <span class="exercise-name">Push-ups</span>
-                    <span class="exercise-desc" id="desc-pushups">Strict lines. Solidifies upper frames required for stick handling battles & heavier releases.</span>
-                </div>
-                <div class="complete-checkbox" id="check-pushups">✓</div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleExercise('planks')">
-                <div class="exercise-info">
-                    <span class="exercise-name">Planks</span>
-                    <span class="exercise-desc" id="desc-planks">Forearms flat, back locked out like a board. Builds high-grade core stability to hold off defenders.</span>
-                </div>
-                <div class="complete-checkbox" id="check-planks">✓</div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleExercise('birddogs')">
-                <div class="exercise-info">
-                    <span class="exercise-name">Bird-Dogs</span>
-                    <span class="exercise-desc" id="desc-birddogs">On all fours. Extend opposite arm/leg straight out. Locks down spine protection and alignment.</span>
-                </div>
-                <div class="complete-checkbox" id="check-birddogs">✓</div>
-            </div>
+    <!-- ================= VIEW 2: STICK HANDLING TRACKER ================= -->
+    <div id="stickHandlingView" style="display: none;">
+        <div class="button-group-title">1. Select Drill</div>
+        <div class="grid-2">
+            <button class="type-btn active" onclick="setStickExercise('StrongSide')" id="btn-StrongSide">
+                Strong Side
+                <span class="exercise-sub">Target: 1 Min</span>
+            </button>
+            <button class="type-btn" onclick="setStickExercise('Middle')" id="btn-Middle">
+                Middle
+                <span class="exercise-sub">Target: 1 Min</span>
+            </button>
+            <button class="type-btn" onclick="setStickExercise('WeakSide')" id="btn-WeakSide">
+                Weak Side
+                <span class="exercise-sub">Target: 1 Min</span>
+            </button>
+            <button class="type-btn" onclick="setStickExercise('Figure8')" id="btn-Figure8">
+                Figure 8
+                <span class="exercise-sub">Target: 2 Min</span>
+            </button>
         </div>
 
-        <button class="increment-btn" style="width: 100%; margin-bottom: 20px; background: linear-gradient(135deg, var(--brand-yellow), #ca8a04); color: black;" onclick="logWorkoutCompletion()">
-            LOG ROUTINE AS COMPLETE TODAY
-        </button>
+        <!-- Interactive Drill Timer -->
+        <div class="timer-box">
+            <div class="timer-display" id="timerDisplay">01:00</div>
+            <button class="timer-ctrl-btn" id="timerBtn" onclick="toggleTimer()">Start Drill</button>
+        </div>
+
+        <div class="button-group-title">2. Quick Add Minutes</div>
+        <div class="grid-3">
+            <button class="increment-btn" onclick="addStickMinutes(1)">+1 Min</button>
+            <button class="increment-btn" onclick="addStickMinutes(2)">+2 Min</button>
+            <button class="increment-btn" onclick="addStickMinutes(5)">+5 Min</button>
+        </div>
 
         <div class="breakdown-section">
-            <div class="button-group-title" style="margin-bottom: 5px;">Weekly Tracking Ledger</div>
-            <div id="workoutHistoryDays" style="font-size: 0.95rem; line-height: 1.6;"></div>
-            <div class="history-log" id="workoutHistoryLog">Workout logs will display here...</div>
+            <div class="button-group-title" style="margin-bottom: 5px;">Drill Minutes Log</div>
+            <div class="breakdown-row"><span class="breakdown-label">Strong Side:</span><span class="breakdown-val" id="count-StrongSide">0m</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Middle:</span><span class="breakdown-val" id="count-Middle">0m</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Weak Side:</span><span class="breakdown-val" id="count-WeakSide">0m</span></div>
+            <div class="breakdown-row"><span class="breakdown-label">Figure 8:</span><span class="breakdown-val" id="count-Figure8">0m</span></div>
+            
+            <div class="history-log" id="stickHistoryLog">Session history will appear here...</div>
         </div>
     </div>
 
-    <!-- MOTIVATION -->
-    <div class="inspiration-quote">
+    <!-- System Reset -->
+    <div class="control-panel">
+        <button class="reset-btn" id="resetBtn" onclick="triggerResetSequence()">Reset Player Progress</button>
+    </div>
+
+    <div class="quote-footer">
         "Hard work beats talent when talent stops working. Keep grinding."
     </div>
-
-    <!-- RESET SYSTEM -->
-    <div class="reset-container">
-        <button class="reset-trigger-btn" onclick="openResetGate()">Reset Profile Data</button>
-        <div class="reset-confirmation-box" id="resetGate">
-            <p style="font-size: 0.85rem; color: #fda4af;">Warning: This completely wipes the selected player's active engine metrics!</p>
-            <input type="text" id="resetVerifyInput" placeholder="Type RESET to authorize">
-            <button class="reset-confirm-btn" onclick="executeSystemReset()">CONFIRM DESTRUCTION</button>
-        </div>
-    </div>
-
 </div>
 
 <script>
-    let currentMode = 'shot';
+    let activeMode = 'shots'; // 'shots' or 'stickhandling'
+    
+    // Shot Data Scale
     let shotData = { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
     let currentShotType = 'Wrist';
-    
-    let workoutProgress = { lastCompletedTimestamp: 0, historyWeek: [] };
-    let dailyTrackingSwitches = { skaters: false, squats: false, pushups: false, planks: false, birddogs: false };
+    const shotGoal = 10000;
 
-    const SHOT_GOAL = 10000;
-    const WORKOUT_GOAL = 7;
+    // Stick Handling Data Scale (minutes)
+    let stickData = { StrongSide: 0, Middle: 0, WeakSide: 0, Figure8: 0 };
+    let currentStickExercise = 'StrongSide';
+    const stickGoal = 100; // 100 Minutes Goal
 
-    function getStorageKeys() {
-        const p = document.getElementById('playerSelect').value.replace(/\s+/g, '_').toLowerCase();
-        return {
-            shots: `mcnasty_shots_${p}`,
-            workouts: `mcnasty_workouts_${p}`
-        };
+    // Drill Timers
+    const drillDurations = { StrongSide: 60, Middle: 60, WeakSide: 60, Figure8: 120 }; // in seconds
+    let timerSeconds = 60;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    let resetStage = 0;
+
+    function getStorageKey(type) {
+        const player = document.getElementById('playerSelect').value;
+        const sanitizedPlayer = player.replace(/\s+/g, '_').toLowerCase();
+        return type === 'shots' ? `hockey_shots_${sanitizedPlayer}` : `hockey_stick_${sanitizedPlayer}`;
     }
 
+    /* --- MODE SWITCHING (Theme & UI Update) --- */
     function switchMode(mode) {
-        currentMode = mode;
-        document.getElementById('resetGate').style.display = 'none';
-        
-        if (mode === 'shot') {
-            document.body.className = "shot-mode-active";
-            document.getElementById('modeShot').classList.add('active');
-            document.getElementById('modeWorkout').classList.remove('active');
-            document.getElementById('appTitle').innerText = "McNasty's Wicked Rip Tracker";
-            document.getElementById('appLogo').innerText = "🏒";
-            document.getElementById('viewShotSystem').style.display = 'block';
-            document.getElementById('viewWorkoutSystem').style.display = 'none';
+        activeMode = mode;
+        const body = document.getElementById('bodyTag');
+        const tabShots = document.getElementById('tabShots');
+        const tabStick = document.getElementById('tabStick');
+        const shotView = document.getElementById('shotTrackerView');
+        const stickView = document.getElementById('stickHandlingView');
+        const emoji = document.getElementById('appEmoji');
+
+        if (mode === 'stickhandling') {
+            body.classList.add('mode-stickhandling');
+            tabShots.classList.remove('active');
+            tabStick.classList.add('active');
+            shotView.style.display = 'none';
+            stickView.style.display = 'block';
+            emoji.innerText = '⚡';
+            document.getElementById('goalText').innerText = 'TOTAL MINUTES / 100 MIN GOAL';
         } else {
-            document.body.className = "workout-mode-active";
-            document.getElementById('modeWorkout').classList.add('active');
-            document.getElementById('modeShot').classList.remove('active');
-            document.getElementById('appTitle').innerText = "McNasty's Quick Hit Home Workout";
-            document.getElementById('appLogo').innerText = "⚡";
-            document.getElementById('viewShotSystem').style.display = 'none';
-            document.getElementById('viewWorkoutSystem').style.display = 'block';
+            body.classList.remove('mode-stickhandling');
+            tabStick.classList.remove('active');
+            tabShots.classList.add('active');
+            stickView.style.display = 'none';
+            shotView.style.display = 'block';
+            emoji.innerText = '🏒';
+            document.getElementById('goalText').innerText = 'TOTAL SHOTS / 10,000 GOAL';
         }
-        loadActiveData();
+
+        resetTimer();
+        loadPlayerData();
     }
 
+    /* --- SHOT TRACKER LOGIC --- */
     function setShotType(type) {
         currentShotType = type;
-        document.querySelectorAll('#viewShotSystem .type-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`btn-${type}`).classList.add('active');
-    }
-
-    function toggleExercise(id) {
-        const desc = document.getElementById(`desc-${id}`);
-        desc.classList.toggle('visible');
-        
-        dailyTrackingSwitches[id] = !dailyTrackingSwitches[id];
-        const row = desc.closest('.exercise-item');
-        if(dailyTrackingSwitches[id]) {
-            row.classList.add('done');
-        } else {
-            row.classList.remove('done');
-        }
-    }
-
-    function checkWeeklyResetRequirement() {
-        const now = new Date();
-        const currentTimestamp = now.getTime();
-        
-        let lastMonday = new Date(now);
-        const dayOfWeek = now.getDay();
-        const distanceToMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
-        
-        lastMonday.setDate(now.getDate() - distanceToMonday);
-        lastMonday.setHours(1, 0, 0, 0);
-        
-        if (lastMonday.getTime() > currentTimestamp) {
-            lastMonday.setDate(lastMonday.getDate() - 7);
-        }
-        
-        const targetResetThreshold = lastMonday.getTime();
-        
-        if (workoutProgress.lastCompletedTimestamp !== 0 && workoutProgress.lastCompletedTimestamp < targetResetThreshold) {
-            workoutProgress.historyWeek = [];
-            localStorage.setItem(getStorageKeys().workouts, JSON.stringify(workoutProgress));
-        }
-    }
-
-    function loadActiveData() {
-        const keys = getStorageKeys();
-        
-        const savedShots = localStorage.getItem(keys.shots);
-        shotData = savedShots ? JSON.parse(savedShots) : { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
-        
-        const savedWorkouts = localStorage.getItem(keys.workouts);
-        workoutProgress = savedWorkouts ? JSON.parse(savedWorkouts) : { lastCompletedTimestamp: 0, historyWeek: [] };
-        
-        checkWeeklyResetRequirement();
-        
-        dailyTrackingSwitches = { skaters: false, squats: false, pushups: false, planks: false, birddogs: false };
-        document.querySelectorAll('.exercise-item').forEach(item => item.classList.remove('done'));
-        document.querySelectorAll('.exercise-desc').forEach(desc => desc.classList.remove('visible'));
-        
-        document.getElementById('resetGate').style.display = 'none';
-        document.getElementById('resetVerifyInput').value = "";
-
-        updateUI();
+        document.querySelectorAll('#shotTrackerView .type-btn').forEach(btn => btn.classList.remove('active'));
+        const targetBtn = document.getElementById(`btn-${type.replace('-', '')}`);
+        if (targetBtn) targetBtn.classList.add('active');
     }
 
     function addShots(amount) {
         shotData[currentShotType] += amount;
-        localStorage.setItem(getStorageKeys().shots, JSON.stringify(shotData));
+        localStorage.setItem(getStorageKey('shots'), JSON.stringify(shotData));
         
         const log = document.getElementById('shotHistoryLog');
-        // Fixed: Replaced standard empty array formatting parameter with 'undefined' to safely pass iPhone execution limits
-        const timestamp = new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-        if(log.innerHTML.includes("Session logs")) log.innerHTML = "";
-        log.innerHTML = `<div style="margin-bottom:4px;">[${timestamp}] Ripped +${amount} ${currentShotType} shots</div>` + log.innerHTML;
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if(log.innerHTML.includes("Session history")) log.innerHTML = "";
+        log.innerHTML = `<div class="log-entry">[${timestamp}] Added +${amount} ${currentShotType} shots</div>` + log.innerHTML;
         
         updateUI();
     }
 
-    function logWorkoutCompletion() {
-        const keys = getStorageKeys();
-        const now = new Date();
-        // Fixed: Replaced standard empty array formatting parameter with 'undefined' to safely pass iPhone execution limits
-        const todayString = now.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+    /* --- STICK HANDLING LOGIC & TIMER --- */
+    function setStickExercise(exercise) {
+        currentStickExercise = exercise;
+        document.querySelectorAll('#stickHandlingView .type-btn').forEach(btn => btn.classList.remove('active'));
+        const targetBtn = document.getElementById(`btn-${exercise}`);
+        if (targetBtn) targetBtn.classList.add('active');
         
-        if (workoutProgress.historyWeek.includes(todayString)) {
-            alert("Routine already logged as executed today! Keep resting up for the next session.");
-            return;
-        }
+        resetTimer();
+    }
 
-        workoutProgress.historyWeek.push(todayString);
-        workoutProgress.lastCompletedTimestamp = now.getTime();
+    function resetTimer() {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        document.getElementById('timerBtn').innerText = "Start Drill";
+        timerSeconds = drillDurations[currentStickExercise];
+        updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+        const mins = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        document.getElementById('timerDisplay').innerText = 
+            `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+        if (isTimerRunning) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            document.getElementById('timerBtn').innerText = "Resume Drill";
+        } else {
+            isTimerRunning = true;
+            document.getElementById('timerBtn').innerText = "Pause";
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                updateTimerDisplay();
+                
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    const loggedMins = Math.round(drillDurations[currentStickExercise] / 60);
+                    addStickMinutes(loggedMins, true);
+                    alert(`Great work! Drill complete (+${loggedMins} min logged).`);
+                    resetTimer();
+                }
+            }, 1000);
+        }
+    }
+
+    function addStickMinutes(minutes, fromTimer = false) {
+        stickData[currentStickExercise] += minutes;
+        localStorage.setItem(getStorageKey('stick'), JSON.stringify(stickData));
         
-        localStorage.setItem(keys.workouts, JSON.stringify(workoutProgress));
+        const log = document.getElementById('stickHistoryLog');
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if(log.innerHTML.includes("Session history")) log.innerHTML = "";
         
-        const log = document.getElementById('workoutHistoryLog');
-        const timestamp = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-        if(log.innerHTML.includes("Workout logs")) log.innerHTML = "";
-        log.innerHTML = `<div style="margin-bottom:4px; color:var(--brand-green);">[${timestamp}] Completed daily dynamic protocol!</div>` + log.innerHTML;
+        const formattedExercise = currentStickExercise.replace(/([A-Z0-9])/g, ' $1').trim();
+        const sourceTag = fromTimer ? " (Timer Completed)" : "";
+        log.innerHTML = `<div class="log-entry">[${timestamp}] Added +${minutes}m ${formattedExercise}${sourceTag}</div>` + log.innerHTML;
         
-        document.querySelectorAll('.exercise-item').forEach(item => item.classList.remove('done'));
-        dailyTrackingSwitches = { skaters: false, squats: false, pushups: false, planks: false, birddogs: false };
+        updateUI();
+    }
+
+    /* --- DATA & UI REFRESH --- */
+    function loadPlayerData() {
+        resetStage = 0;
+        const resetBtn = document.getElementById('resetBtn');
+        resetBtn.innerText = "Reset Player Progress";
+        resetBtn.classList.remove('danger-zone');
+
+        // Load Shot Data
+        const savedShots = localStorage.getItem(getStorageKey('shots'));
+        shotData = savedShots ? JSON.parse(savedShots) : { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
         
-        alert("Awesome work! Routine logged for today.");
+        // Load Stick Data
+        const savedStick = localStorage.getItem(getStorageKey('stick'));
+        stickData = savedStick ? JSON.parse(savedStick) : { StrongSide: 0, Middle: 0, WeakSide: 0, Figure8: 0 };
+
+        document.getElementById('shotHistoryLog').innerHTML = "Session history will appear here...";
+        document.getElementById('stickHistoryLog').innerHTML = "Session history will appear here...";
+        
         updateUI();
     }
 
     function updateUI() {
-        if (currentMode === 'shot') {
+        if (activeMode === 'shots') {
             let total = 0;
             for (const type in shotData) {
                 total += shotData[type];
-                document.getElementById(`count-${type}`).innerText = shotData[type].toLocaleString();
+                const el = document.getElementById(`count-${type.replace('-', '')}`);
+                if (el) el.innerText = shotData[type].toLocaleString();
             }
-            document.getElementById('totalDisplay').innerText = total.toLocaleString();
-            document.getElementById('goalText').innerText = "TOTAL SHOTS / 10,000 GOAL";
-            
-            const pct = Math.min((total / SHOT_GOAL) * 100, 100).toFixed(1);
+            document.getElementById('totalCounter').innerText = total.toLocaleString();
+            const pct = Math.min((total / shotGoal) * 100, 100).toFixed(1);
             document.getElementById('progressBar').style.width = `${pct}%`;
             document.getElementById('progressPercent').innerText = `${pct}%`;
         } else {
-            const daysCompletedThisWeek = workoutProgress.historyWeek.length;
-            document.getElementById('totalDisplay').innerText = daysCompletedThisWeek;
-            document.getElementById('goalText').innerText = "DAYS COMPLETED THIS WEEK";
-            
-            const pct = Math.min((daysCompletedThisWeek / WORKOUT_GOAL) * 100, 100).toFixed(0);
+            let total = 0;
+            for (const ex in stickData) {
+                total += stickData[ex];
+                const el = document.getElementById(`count-${ex}`);
+                if (el) el.innerText = `${stickData[ex]}m`;
+            }
+            document.getElementById('totalCounter').innerText = `${total}m`;
+            const pct = Math.min((total / stickGoal) * 100, 100).toFixed(1);
             document.getElementById('progressBar').style.width = `${pct}%`;
-            document.getElementById('progressPercent').innerText = `${daysCompletedThisWeek} / 7 Days`;
+            document.getElementById('progressPercent').innerText = `${pct}%`;
+        }
+    }
+
+    function triggerResetSequence() {
+        const player = document.getElementById('playerSelect').value;
+        const resetBtn = document.getElementById('resetBtn');
+
+        if (resetStage === 0) {
+            resetStage = 1;
+            resetBtn.innerText = "Are you sure? Click again.";
+            resetBtn.classList.add('danger-zone');
             
-            const ledgerBox = document.getElementById('workoutHistoryDays');
-            if(workoutProgress.historyWeek.length === 0) {
-                ledgerBox.innerHTML = `<span style="color: var(--text-muted);">No sessions executed yet since Monday 1:00 AM reset.</span>`;
+            setTimeout(() => {
+                if(resetStage === 1) {
+                    resetStage = 0;
+                    resetBtn.innerText = "Reset Player Progress";
+                    resetBtn.classList.remove('danger-zone');
+                }
+            }, 5000);
+            
+        } else if (resetStage === 1) {
+            resetStage = 0;
+            resetBtn.innerText = "Reset Player Progress";
+            resetBtn.classList.remove('danger-zone');
+
+            const confirmValue = prompt(`Type "${player}" exactly to reset all ${activeMode === 'shots' ? 'shot' : 'stick handling'} progress to 0:`);
+            if (confirmValue === player) {
+                if (activeMode === 'shots') {
+                    shotData = { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
+                    localStorage.setItem(getStorageKey('shots'), JSON.stringify(shotData));
+                    document.getElementById('shotHistoryLog').innerHTML = `<div class="log-entry" style="color:var(--brand-red);">[SYSTEM] Wiped all shot stats to zero.</div>`;
+                } else {
+                    stickData = { StrongSide: 0, Middle: 0, WeakSide: 0, Figure8: 0 };
+                    localStorage.setItem(getStorageKey('stick'), JSON.stringify(stickData));
+                    document.getElementById('stickHistoryLog').innerHTML = `<div class="log-entry" style="color:#dc2626;">[SYSTEM] Wiped all stick handling stats to zero.</div>`;
+                }
+                updateUI();
             } else {
-                ledgerBox.innerHTML = `<strong style="color:var(--brand-green)">Active Days Locked In:</strong><br>` + 
-                                      workoutProgress.historyWeek.map(day => `• ${day}`).join('<br>');
+                alert("Reset aborted. Input name mismatch.");
             }
         }
     }
 
-    function openResetGate() {
-        document.getElementById('resetGate').style.display = 'block';
-    }
-
-    function executeSystemReset() {
-        const inputVerification = document.getElementById('resetVerifyInput').value;
-        if (inputVerification !== 'RESET') {
-            alert("Authorization phrase invalid. Reset transaction aborted.");
-            return;
-        }
-
-        const keys = getStorageKeys();
-        if (currentMode === 'shot') {
-            shotData = { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
-            localStorage.setItem(keys.shots, JSON.stringify(shotData));
-            document.getElementById('shotHistoryLog').innerHTML = "Session logs will display here...";
-        } else {
-            workoutProgress = { lastCompletedTimestamp: 0, historyWeek: [] };
-            localStorage.setItem(keys.workouts, JSON.stringify(workoutProgress));
-            document.getElementById('workoutHistoryLog').innerHTML = "Workout logs will display here...";
-        }
-
-        document.getElementById('resetGate').style.display = 'none';
-        document.getElementById('resetVerifyInput').value = "";
-        
-        alert("Profile metrics wiped clean!");
-        updateUI();
-    }
-
-    window.onload = function() {
-        loadActiveData();
+    window.onload = () => {
+        setStickExercise('StrongSide');
+        loadPlayerData();
     };
 </script>
 
