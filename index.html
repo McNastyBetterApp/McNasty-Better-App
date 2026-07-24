@@ -389,7 +389,7 @@
             color: var(--text-muted);
             margin-top: 4px;
             padding-right: 10px;
-            display: block; /* Always visible */
+            display: block;
         }
 
         .exercise-actions {
@@ -598,19 +598,20 @@
         }
     </style>
 </head>
-<body class="shot-mode-active">
+<body class="workout-mode-active">
 
 <div class="app-container">
     
+    <!-- MODE TOGGLE NAVIGATION (Shot Tracker Moved to 3rd) -->
     <div class="mode-toggle">
-        <button class="mode-btn active" id="modeShot" onclick="switchMode('shot')">Shot Tracker</button>
-        <button class="mode-btn" id="modeWorkout" onclick="switchMode('workout')">Workout</button>
+        <button class="mode-btn active" id="modeWorkout" onclick="switchMode('workout')">Workout</button>
         <button class="mode-btn" id="modeStick" onclick="switchMode('stick')">Stick Handling</button>
+        <button class="mode-btn" id="modeShot" onclick="switchMode('shot')">Shot Tracker</button>
     </div>
 
     <header>
-        <div class="logo-placeholder" id="appLogo">🏒</div>
-        <h1 id="appTitle">Coach K's Wicked Rip Tracker</h1>
+        <div class="logo-placeholder" id="appLogo">💪</div>
+        <h1 id="appTitle">Coach K's Quick Hit Workout</h1>
     </header>
 
     <div class="setup-section">
@@ -644,48 +645,15 @@
 
     <div class="stats-card">
         <div class="total-counter" id="totalDisplay">0</div>
-        <div class="goal-text" id="goalText">TOTAL SHOTS / 10,000 GOAL</div>
+        <div class="goal-text" id="goalText">WORKOUTS / 30 SEASON GOAL</div>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
             <div class="progress-text" id="progressPercent">0%</div>
         </div>
     </div>
 
-    <!-- VIEW 1: SHOT TRACKER -->
-    <div id="viewShotSystem">
-        <div class="button-group-title">1. Target Shot Type</div>
-        <div class="grid-3">
-            <button class="type-btn active" onclick="setShotType('Wrist')" id="btn-Wrist">Wrist</button>
-            <button class="type-btn" onclick="setShotType('Snap')" id="btn-Snap">Snap</button>
-            <button class="type-btn" onclick="setShotType('Backhand')" id="btn-Backhand">Backhand</button>
-        </div>
-        <div class="grid-3" style="margin-top: -10px;">
-            <button class="type-btn" onclick="setShotType('Slap')" id="btn-Slap">Slap</button>
-            <button class="type-btn" onclick="setShotType('One-Timer')" id="btn-One-Timer">One-Timer</button>
-            <button class="type-btn" onclick="setShotType('Obstacle')" id="btn-Obstacle">Obstacle</button>
-        </div>
-
-        <div class="button-group-title" style="margin-top: 10px;">2. Log Pucks Ripped</div>
-        <div class="grid-3">
-            <button class="increment-btn" onclick="addShots(10)">+10</button>
-            <button class="increment-btn" onclick="addShots(25)">+25</button>
-            <button class="increment-btn" onclick="addShots(50)">+50</button>
-        </div>
-
-        <div class="breakdown-section">
-            <div class="button-group-title" style="margin-bottom: 5px;">Shot Arsenal</div>
-            <div class="breakdown-row"><span>Wrist Shots:</span><span class="breakdown-val" id="count-Wrist">0</span></div>
-            <div class="breakdown-row"><span>Snap Shots:</span><span class="breakdown-val" id="count-Snap">0</span></div>
-            <div class="breakdown-row"><span>Backhands:</span><span class="breakdown-val" id="count-Backhand">0</span></div>
-            <div class="breakdown-row"><span>Slap Shots:</span><span class="breakdown-val" id="count-Slap">0</span></div>
-            <div class="breakdown-row"><span>One-Timers:</span><span class="breakdown-val" id="count-One-Timer">0</span></div>
-            <div class="breakdown-row"><span>Obstacle:</span><span class="breakdown-val" id="count-Obstacle">0</span></div>
-            <div class="history-log" id="shotHistoryLog">Session logs will display here...</div>
-        </div>
-    </div>
-
-    <!-- VIEW 2: WORKOUT MODULE -->
-    <div id="viewWorkoutSystem" style="display: none;">
+    <!-- VIEW 1: WORKOUT MODULE -->
+    <div id="viewWorkoutSystem">
         <div class="workout-guide-box">
             <strong>Structure:</strong> Cycle list <strong>2-3 times</strong> doing <strong>8–10 reps</strong> of each. 1-min rest between sets.
         </div>
@@ -745,7 +713,7 @@
         </div>
     </div>
 
-    <!-- VIEW 3: STICK HANDLING MODULE -->
+    <!-- VIEW 2: STICK HANDLING MODULE -->
     <div id="viewStickSystem" style="display: none;">
         <div class="workout-guide-box">
             <strong>Session Layout:</strong> Use live countdown timers below or quick log offline practice time. Goal: 100 mins total!
@@ -818,6 +786,39 @@
         </div>
     </div>
 
+    <!-- VIEW 3: SHOT TRACKER -->
+    <div id="viewShotSystem" style="display: none;">
+        <div class="button-group-title">1. Target Shot Type</div>
+        <div class="grid-3">
+            <button class="type-btn active" onclick="setShotType('Wrist')" id="btn-Wrist">Wrist</button>
+            <button class="type-btn" onclick="setShotType('Snap')" id="btn-Snap">Snap</button>
+            <button class="type-btn" onclick="setShotType('Backhand')" id="btn-Backhand">Backhand</button>
+        </div>
+        <div class="grid-3" style="margin-top: -10px;">
+            <button class="type-btn" onclick="setShotType('Slap')" id="btn-Slap">Slap</button>
+            <button class="type-btn" onclick="setShotType('One-Timer')" id="btn-One-Timer">One-Timer</button>
+            <button class="type-btn" onclick="setShotType('Obstacle')" id="btn-Obstacle">Obstacle</button>
+        </div>
+
+        <div class="button-group-title" style="margin-top: 10px;">2. Log Pucks Ripped</div>
+        <div class="grid-3">
+            <button class="increment-btn" onclick="addShots(10)">+10</button>
+            <button class="increment-btn" onclick="addShots(25)">+25</button>
+            <button class="increment-btn" onclick="addShots(50)">+50</button>
+        </div>
+
+        <div class="breakdown-section">
+            <div class="button-group-title" style="margin-bottom: 5px;">Shot Arsenal</div>
+            <div class="breakdown-row"><span>Wrist Shots:</span><span class="breakdown-val" id="count-Wrist">0</span></div>
+            <div class="breakdown-row"><span>Snap Shots:</span><span class="breakdown-val" id="count-Snap">0</span></div>
+            <div class="breakdown-row"><span>Backhands:</span><span class="breakdown-val" id="count-Backhand">0</span></div>
+            <div class="breakdown-row"><span>Slap Shots:</span><span class="breakdown-val" id="count-Slap">0</span></div>
+            <div class="breakdown-row"><span>One-Timers:</span><span class="breakdown-val" id="count-One-Timer">0</span></div>
+            <div class="breakdown-row"><span>Obstacle:</span><span class="breakdown-val" id="count-Obstacle">0</span></div>
+            <div class="history-log" id="shotHistoryLog">Session logs will display here...</div>
+        </div>
+    </div>
+
     <!-- MOTIVATION -->
     <div class="inspiration-quote">
         "Hard work beats talent when talent stops working. Keep grinding."
@@ -836,7 +837,7 @@
 </div>
 
 <script>
-    let currentMode = 'shot';
+    let currentMode = 'workout';
     let shotData = { Wrist: 0, Snap: 0, Backhand: 0, Slap: 0, 'One-Timer': 0, Obstacle: 0 };
     let currentShotType = 'Wrist';
     
@@ -847,7 +848,7 @@
     let activeTimers = {};
 
     const SHOT_GOAL = 10000;
-    const WORKOUT_GOAL = 30; // 30 season workouts
+    const WORKOUT_GOAL = 30;
     const STICK_GOAL = 100;
 
     const EMOJIS = {
@@ -869,36 +870,36 @@
         currentMode = mode;
         document.getElementById('resetGate').style.display = 'none';
         
-        document.getElementById('modeShot').classList.remove('active');
         document.getElementById('modeWorkout').classList.remove('active');
         document.getElementById('modeStick').classList.remove('active');
+        document.getElementById('modeShot').classList.remove('active');
 
         const logoEl = document.getElementById('appLogo');
 
-        if (mode === 'shot') {
-            document.body.className = "shot-mode-active";
-            document.getElementById('modeShot').classList.add('active');
-            document.getElementById('appTitle').innerText = "Coach K's Wicked Rip Tracker";
-            logoEl.innerText = EMOJIS.shot;
-            document.getElementById('viewShotSystem').style.display = 'block';
-            document.getElementById('viewWorkoutSystem').style.display = 'none';
-            document.getElementById('viewStickSystem').style.display = 'none';
-        } else if (mode === 'workout') {
+        if (mode === 'workout') {
             document.body.className = "workout-mode-active";
             document.getElementById('modeWorkout').classList.add('active');
             document.getElementById('appTitle').innerText = "Coach K's Quick Hit Workout";
             logoEl.innerText = EMOJIS.workout;
-            document.getElementById('viewShotSystem').style.display = 'none';
             document.getElementById('viewWorkoutSystem').style.display = 'block';
             document.getElementById('viewStickSystem').style.display = 'none';
-        } else {
+            document.getElementById('viewShotSystem').style.display = 'none';
+        } else if (mode === 'stick') {
             document.body.className = "stickhandling-mode-active";
             document.getElementById('modeStick').classList.add('active');
             document.getElementById('appTitle').innerText = "Coach K's Soft Hands Lab";
             logoEl.innerText = EMOJIS.stick;
-            document.getElementById('viewShotSystem').style.display = 'none';
             document.getElementById('viewWorkoutSystem').style.display = 'none';
             document.getElementById('viewStickSystem').style.display = 'block';
+            document.getElementById('viewShotSystem').style.display = 'none';
+        } else {
+            document.body.className = "shot-mode-active";
+            document.getElementById('modeShot').classList.add('active');
+            document.getElementById('appTitle').innerText = "Coach K's Wicked Rip Tracker";
+            logoEl.innerText = EMOJIS.shot;
+            document.getElementById('viewWorkoutSystem').style.display = 'none';
+            document.getElementById('viewStickSystem').style.display = 'none';
+            document.getElementById('viewShotSystem').style.display = 'block';
         }
         loadActiveData();
     }
@@ -919,7 +920,6 @@
         }
     }
 
-    // Interactive Drill Timers for Stick Handling
     function startDrillTimer(drillId, totalSeconds) {
         if (activeTimers[drillId]) {
             clearInterval(activeTimers[drillId].interval);
